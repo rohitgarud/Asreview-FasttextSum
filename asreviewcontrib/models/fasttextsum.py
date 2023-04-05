@@ -20,7 +20,7 @@ def _check_gensim():
 
 
 class FasttextSum(BaseFeatureExtraction):
-    name = "fasttext"
+    name = "fasttext_sum"
 
     def __init__(
         self,
@@ -32,7 +32,7 @@ class FasttextSum(BaseFeatureExtraction):
         n_jobs=1,
         pooling="mean",
         ngram_max=1,
-        stop_words="english",
+        stop_words=None,  # "english"
         **kwargs
     ):
         super(FastText, self).__init__(*args, **kwargs)
