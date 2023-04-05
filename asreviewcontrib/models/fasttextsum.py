@@ -35,7 +35,7 @@ class FasttextSum(BaseFeatureExtraction):
         stop_words=None,  # "english"
         **kwargs
     ):
-        super(FastText, self).__init__(*args, **kwargs)
+        super(FasttextSum, self).__init__(*args, **kwargs)
         self.vector_size = int(vector_size)
         self.epochs = int(epochs)
         self.min_count = int(min_count)
