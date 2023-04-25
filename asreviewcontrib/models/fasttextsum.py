@@ -91,7 +91,7 @@ class FasttextSum(BaseFeatureExtraction):
 
         corpus = [simple_preprocess(text) for text in texts]
 
-        X = []
+        X = np.zeros((len(texts), self.vector_size))
         if self.pooling in ["tf", "log_tf", "sif"]:
             self.count_features = self.countvec.transform(texts).toarray()
             self.word_count = np.sum(self.count_features, axis=0)
@@ -112,11 +112,10 @@ class FasttextSum(BaseFeatureExtraction):
                     weight = self._get_weight(word, doc_id)
                     num_vecs += 1 if weight > 0 else 0
                     doc_vec += weight * self._model.wv[word].reshape(1, -1)
-                if self.pooling in ["mean", "sif"]:
+                if self.pooling in ["mean", "sif"] and num_vecs > 0:
                     doc_vec /= num_vecs
-            X.append(doc_vec)
+            X[doc_id] = doc_vec
 
-        X = np.array(X).reshape(len(texts), self.vector_size)
         if self.pooling == "sif":
             svd = TruncatedSVD(
                 n_components=1, n_iter=7, random_state=0
